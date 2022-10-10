@@ -104,46 +104,45 @@ function img_downloader(url, path) {
     .catch(err_logger);
 }
 
-async function web_scraper_url(url) 
-{
-   await axios
-      .get(url)
-      .then((response) => response.data)
-      .then(document_builder)
-      .then(main_selector)
-      .then((item) => jsdom.JSDOM.fragment(item.outerHTML))
-      .then(get_url)
-      .then(get_img)
-      .then(get_meta)
-      .then(get_summary)
-      .then(([_, res]) => {
-        let path;
-        if (res !== null) {
-          const { author, header } = res.meta;
-          path = `/Volumes/Extreme SSD/Kotobati/books/${author}/${header.trim()}`;
-          fs.mkdirSync(path, { recursive: true }, err_logger);
-          fs.writeFileSync(`${path}/meta_data.json`, JSON.stringify(res));
-        } else {
-          console.error("empty response...");
-        }
-        return [res, path];
-      })
-      .then(([res, path]) => {
-        pdf_downloader(res.url, path);
-        return [res, path];
-      })
-      .then(([res, path]) => {
-        img_downloader(res.img, path);
-      })
-      .catch(() => {
-        logger(url);
-      });
+async function web_scraper_url(url) {
+  await axios
+    .get(url)
+    .then((response) => response.data)
+    .then(document_builder)
+    .then(main_selector)
+    .then((item) => jsdom.JSDOM.fragment(item.outerHTML))
+    .then(get_url)
+    .then(get_img)
+    .then(get_meta)
+    .then(get_summary)
+    .then(([_, res]) => {
+      let path;
+      if (res !== null) {
+        const { author, header } = res.meta;
+        path = `./books/${author}/${header.trim()}`;
+        fs.mkdirSync(path, { recursive: true }, err_logger);
+        fs.writeFileSync(`${path}/meta_data.json`, JSON.stringify(res));
+      } else {
+        console.error("empty response...");
+      }
+      return [res, path];
+    })
+    .then(([res, path]) => {
+      pdf_downloader(res.url, path);
+      return [res, path];
+    })
+    .then(([res, path]) => {
+      img_downloader(res.img, path);
+    })
+    .catch(() => {
+      logger(url);
+    });
 }
 
-async function yuzer_yuzer_calistir(urls){
-  let idx = 0;
-  while(idx < urls.length){
-    await web_scraper_url(urls.at(idx))
+async function yuzer_yuzer_calistir(urls) {
+  let idx = 19000;
+  while (idx < urls.length) {
+    await web_scraper_url(urls.at(idx));
     idx = idx + 1;
   }
 }
