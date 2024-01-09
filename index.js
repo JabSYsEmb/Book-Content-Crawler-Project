@@ -1,7 +1,7 @@
 const axios = require("axios");
 const fs = require("fs");
 const jsdom = require("jsdom");
-const urls = require("./urls.json");
+const urls = require("./urls/kotobati.json");
 
 const domain = "https://www.kotobati.com";
 

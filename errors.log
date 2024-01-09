@@ -1,4 +1,0 @@
-[logger - 12:26:57 AM]: Error: connect ECONNRESET 104.26.12.202:443
-[logger - 12:28:08 AM]: Error: read ECONNRESET
-[logger - 12:29:32 AM]: AxiosError: Request failed with status code 500
-[logger - 12:33:01 AM]: Error: read ECONNRESET
